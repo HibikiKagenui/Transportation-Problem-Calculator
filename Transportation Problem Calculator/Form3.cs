@@ -178,6 +178,12 @@ namespace Transportation_Problem_Calculator
             };
 
             Controls.Add(label);
+
+            // set textboxes as disabled
+            foreach (TextBox tb in cells)       tb.Enabled = false;
+            foreach (TextBox tb in cellss)      tb.Enabled = false;
+            foreach (TextBox tb in demands)     tb.Enabled = false;
+            foreach (TextBox tb in supplies)    tb.Enabled = false;
         }
     }
 }

@@ -23,6 +23,8 @@ namespace Transportation_Problem_Calculator
         TextBox[] demands;
         TextBox[,] cells;
 
+        Button buttonCalculate;
+
         int[] arrDemand;
         int[] arrDemand2;
         int[] arrSupply;
@@ -152,10 +154,11 @@ namespace Transportation_Problem_Calculator
             // tombol calculate
             x = 70;
             y += 60;
-            Button buttonCalculate = new Button()
+            buttonCalculate = new Button()
             {
                 Text = "Hitung",
-                Location = new Point(x, y)
+                Location = new Point(x, y),
+                Enabled = false
             };
             buttonCalculate.Click += new EventHandler(ButtonCalculate_Click);
             Controls.Add(buttonCalculate);
@@ -167,6 +170,53 @@ namespace Transportation_Problem_Calculator
             };
             buttonClear.Click += new EventHandler(ButtonClear_Click);
             Controls.Add(buttonClear);
+
+            // set textbox listeners
+            foreach (TextBox tb in cells)       tb.TextChanged += new EventHandler(TextBox_TextChanged);
+            foreach (TextBox tb in supplies)    tb.TextChanged += new EventHandler(TextBox_TextChanged);
+            foreach (TextBox tb in demands)     tb.TextChanged += new EventHandler(TextBox_TextChanged);
+        }
+
+        private void TextBox_TextChanged(object sender, EventArgs e)
+        {
+            bool status = true;
+
+            if (status)
+            {
+                foreach (TextBox tb in cells)
+                {
+                    if (string.IsNullOrWhiteSpace(tb.Text))
+                    {
+                        status = false;
+                        break;
+                    }
+                }
+            }
+            if (status)
+            {
+                foreach (TextBox tb in demands)
+                {
+                    if (string.IsNullOrWhiteSpace(tb.Text))
+                    {
+                        status = false;
+                        break;
+                    }
+                }
+            }
+            if (status)
+            {
+                foreach (TextBox tb in supplies)
+                {
+                    if (string.IsNullOrWhiteSpace(tb.Text))
+                    {
+                        status = false;
+                        break;
+                    }
+                }
+            }
+
+            if(status) buttonCalculate.Enabled = true;
+            else buttonCalculate.Enabled = false;
         }
 
         private void ButtonClear_Click(object sender, EventArgs e)
@@ -178,6 +228,12 @@ namespace Transportation_Problem_Calculator
 
         private void ButtonCalculate_Click(object sender, EventArgs e)
         {
+            if(!ValidateInput())
+            {
+                MessageBox.Show("Mohon pastikan semua diisi dengan angka", "Error");
+                return;
+            }
+
             int i;
             int j;
 
@@ -244,6 +300,46 @@ namespace Transportation_Problem_Calculator
             LeastCost();
         }
 
+        private bool ValidateInput()
+        {
+            bool returnValue = true;
+
+            if (returnValue)
+            {
+                foreach(TextBox tb in cells)
+                {
+                    if (!int.TryParse(tb.Text, out int temp))
+                    {
+                        returnValue = false;
+                        break;
+                    }
+                }
+            }
+            if (returnValue)
+            {
+                foreach (TextBox tb in demands)
+                {
+                    if (!int.TryParse(tb.Text, out int temp))
+                    {
+                        returnValue = false;
+                        break;
+                    }
+                }
+            }
+            if (returnValue)
+            {
+                foreach (TextBox tb in supplies)
+                {
+                    if (!int.TryParse(tb.Text, out int temp))
+                    {
+                        returnValue = false;
+                        break;
+                    }
+                }
+            }
+
+            return returnValue;
+        }
 
         private void LeastCost()
         {
