@@ -53,28 +53,48 @@ namespace Transportation_Problem_Calculator
 
         private void Form2_Load(object sender, EventArgs e)
         {
-            int x = 50;
+            int x = 70;
             int y = 50;
 
             int width = 50;
             int height = 30;
-
+            
+            // Labels
             for(int j = 0; j < demand; j++)
             {
-                Label label = new Label()
+                Label labelCol = new Label()
                 {
-                    Location = new Point(x, y);
+                    Location = new Point(x, y),
+                    Width = 40,
+                    Height = 20,
                     Text = "D" + (j + 1).ToString()
                 };
-                Controls.Add(label);
+                Controls.Add(labelCol);
                 x += 60;
             }
-            x = 50;
-            y += 20;
+            x += 20;
+            Label labelSupply = new Label()
+            {
+                Location = new Point(x, y),
+                Width = 40,
+                Height = 20,
+                Text = "Supply"
+            };
+            Controls.Add(labelSupply);
+            x = 70;
+            y += 30;
 
             // loop untuk membuat textbox
             for(int i = 0; i < supply; i++)
             {
+                Label labelRow = new Label()
+                {
+                    Location = new Point(x - 40, y),
+                    Width = 40,
+                    Height = 20,
+                    Text = "S" + (i + 1).ToString()
+                };
+                Controls.Add(labelRow);
                 for(int j = 0; j < demand; j++)
                 {
                     TextBox input = new TextBox()
@@ -83,7 +103,7 @@ namespace Transportation_Problem_Calculator
                         Location = new Point(x, y),
                         Multiline = true,
                         Width = width,
-                        Height = height,
+                        Height = height
                     };
                     Controls.Add(input);
                     cells[i,j] = input;
@@ -100,12 +120,20 @@ namespace Transportation_Problem_Calculator
                 };
                 Controls.Add(inputSupply);
                 supplies[i] = inputSupply;
-                x = 50;
+                x = 70;
                 y += 50;
             }
 
             // loop terakhir untuk row textbox demand
             y += 10;
+            Label labelDemand = new Label()
+            {
+                Location = new Point(x - 60, y),
+                Width = 60,
+                Height = 20,
+                Text = "Demand"
+            };
+            Controls.Add(labelDemand);
             for (int j = 0; j < demand; j++)
             {
                 TextBox inputDemand = new TextBox()
@@ -122,16 +150,30 @@ namespace Transportation_Problem_Calculator
             }
 
             // tombol calculate
-            x = 50;
+            x = 70;
             y += 60;
             Button buttonCalculate = new Button()
             {
-                Name = "buttonCalculate",
                 Text = "Hitung",
                 Location = new Point(x, y)
             };
             buttonCalculate.Click += new EventHandler(ButtonCalculate_Click);
             Controls.Add(buttonCalculate);
+            x += 100;
+            Button buttonClear = new Button()
+            {
+                Text = "Hapus",
+                Location = new Point(x, y)
+            };
+            buttonClear.Click += new EventHandler(ButtonClear_Click);
+            Controls.Add(buttonClear);
+        }
+
+        private void ButtonClear_Click(object sender, EventArgs e)
+        {
+            foreach (TextBox tb in cells)       tb.Text = String.Empty;
+            foreach (TextBox tb in supplies)    tb.Text = String.Empty;
+            foreach (TextBox tb in demands)     tb.Text = String.Empty;
         }
 
         private void ButtonCalculate_Click(object sender, EventArgs e)

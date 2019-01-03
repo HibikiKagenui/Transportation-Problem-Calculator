@@ -45,15 +45,48 @@ namespace Transportation_Problem_Calculator
 
         private void Form3_Load(object sender, EventArgs e)
         {
-            int x = 50;
+            int x = 70;
             int y = 50;
 
             int width = 50;
             int height = 30;
 
+            // Labels
+            for (int j = 0; j < column; j++)
+            {
+                Label labelCol = new Label()
+                {
+                    Location = new Point(x, y),
+                    Width = 40,
+                    Height = 20,
+                    Text = "D" + (j + 1).ToString()
+                };
+                Controls.Add(labelCol);
+                x += 120;
+            }
+            x += 20;
+            Label labelSupply = new Label()
+            {
+                Location = new Point(x, y),
+                Width = 40,
+                Height = 20,
+                Text = "Supply"
+            };
+            Controls.Add(labelSupply);
+            x = 70;
+            y += 30;
+
             // loop untuk membuat textbox
             for (int i = 0; i < row; i++)
             {
+                Label labelRow = new Label()
+                {
+                    Location = new Point(x - 40, y),
+                    Width = 40,
+                    Height = 20,
+                    Text = "S" + (i + 1).ToString()
+                };
+                Controls.Add(labelRow);
                 for (int j = 0; j < column; j++)
                 {
                     TextBox input = new TextBox()
@@ -94,12 +127,20 @@ namespace Transportation_Problem_Calculator
                 };
                 Controls.Add(inputSupply);
                 supplies[i] = inputSupply;
-                x = 50;
+                x = 70;
                 y += 50;
             }
 
             // loop terakhir untuk row textbox demand
             y += 10;
+            Label labelDemand = new Label()
+            {
+                Location = new Point(x - 60, y),
+                Width = 60,
+                Height = 20,
+                Text = "Demand"
+            };
+            Controls.Add(labelDemand);
             for (int j = 0; j < column; j++)
             {
                 TextBox inputDemand = new TextBox()
